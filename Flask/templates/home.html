@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column">
+    <h1 class="mb-4">Головна сторінка</h1>
+    <h2 class="mb-3">Категорії</h2>
+
+    <div class="row">
+        {% for category in categories %}
+        <div class="col-4 my-3">
+            <div class="m-1 p-2 border rounded-2 bg-light text-center">
+                <a class="link-underline link-underline-opacity-0 link-dark"
+                   href="{{ url_for('category', name=category) }}">
+                    <h4 class="m-0">{{ category }}</h4>
+                </a>
+                <div class="d-flex justify-content-center mt-2">
+                    <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal"
+                            data-bs-target="#categoryModal{{ loop.index }}">
+                        Перейменувати
+                    </button>
+                    <form action="{{ url_for('delete_category', category=category) }}" method="post"
+                          onsubmit="return confirm('Ви впевнені, що хочете видалити цю категорію?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="modal fade" id="categoryModal{{ loop.index }}" tabindex="-1"
+                 aria-labelledby="categoryModalLabel{{ loop.index }}" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="categoryModalLabel{{ loop.index }}">{{ category }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ url_for('rename_category', category=category) }}" method="post"
+                                  onsubmit="return confirm('Ви впевнені, що хочете перейменувати цю категорію?');">
+                                <div class="mb-3">
+                                    <label for="rename" class="form-label">Перейменувати категорію</label>
+                                    <input type="text" id="rename" name="rename" class="form-control"
+                                           placeholder="Введіть назву категорії"
+                                           required>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-primary">Перейменувати</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

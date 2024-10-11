@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Upload image
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Загрузка фотографії</h1>
+    <form method="POST" enctype="multipart/form-data" class="mt-4 d-flex flex-column align-items-center">
+        <div class="mb-3 w-50">
+            <input type="file" name="image" accept="image/*" class="form-control" required>
+        </div>
+
+        {% if message %}
+            <div class="p-2 alert alert-danger text-center" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        <div class="mb-3 w-50">
+            <select name="category" class="form-select" required>
+                <option selected>Виберіть категорію</option>
+                {% for name in category %}
+                    <option>{{ name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-50">Додати</button>
+    </form>
+{% endblock %}
